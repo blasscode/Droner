@@ -1,0 +1,13 @@
+# Dentro de Gitignore armo una lista de objetos a ignorar
+# Ignora archivos
+.DS_storepackage
+.json
+#Ignora carpetas
+node_modules
+#Ignorar subcarpetas
+#nombrecarpeta/nombresubcarpeta
+#ignorar todos los archivos dentro de un carpeta
+
+#nombrecarpeta/archivo
+# Ignora todos los archivos con la misma extensión
+*.txt*.gif
