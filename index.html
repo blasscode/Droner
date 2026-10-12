@@ -1,110 +1,162 @@
 <!DOCTYPE html>
-<html lang="en">
+<!-- La línea de arriba (DOCTYPE) le avisa al navegador que este documento es HTML5 -->
+
+<!-- <html> es la raíz del documento; lang="es" indica que el contenido está en español
+     (lo usan los lectores de pantalla, los traductores y los buscadores) -->
+<html lang="es">
+
+<!-- <head> contiene información sobre la página que NO se muestra dentro de la ventana -->
 <head>
+    <!-- Codificación de caracteres: UTF-8 permite escribir tildes, ñ y símbolos sin que se rompan -->
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Hace que en celulares la página use el ancho real de la pantalla y arranque sin zoom -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dronert</title>
-    
-    <link rel="stylesheet" href="./bootstrap-5.1.3-dist/bootstrap-5.1.3-dist/css/bootstrap.css">
-    <link rel="stylesheet" href="./styles.css">
 
+    <!-- Título de la pestaña del navegador y del resultado en buscadores (debe haber uno solo por página) -->
+    <title>Droner | Blog para iniciarte en el mundo de los drones</title>
+    <!-- Descripción corta que los buscadores muestran debajo del título -->
+    <meta name="description" content="Iniciate en el mundo de los drones con este blog pensado para quienes quieren adentrarse en este gran mundo.">
+    <!-- Palabras clave relacionadas con el contenido de la página -->
     <meta name="keywords" content="drone,dji,aeromodelismo,blog,noticias,vuelo,radiocontrol,video">
-    <title>Pagina de inicio de la pagina Droner</title>
-    <meta name="description" content="iniciate en a=el mundo de los drones en este blog para aquellos que quieren adentrarse en este gran mundo">
 
+    <!-- Hoja de estilos de Bootstrap 5.1.3 (copia local minificada, funciona sin internet) -->
+    <link rel="stylesheet" href="./vendor/bootstrap/css/bootstrap.min.css">
+    <!-- Hoja de estilos propia; va DESPUÉS de Bootstrap para poder pisar sus reglas -->
+    <link rel="stylesheet" href="./css/styles.css">
 </head>
-<body class="body">
-    <!--comentarios del codigo-->
-    <header class="header">
-        <div class="container">
-            <div class="logo">
-                <h1>DRONER</h1>
-            </div>
-            <nav class="menu">
-                <ul>
-                    <li><a href="./index.html">Inicio</a></li>
-                    <li><a href="#">Marcas <i class="icon-abajo2"></i></a>
-                    <ul class="submenu">
-                        <li><a href="#">
-                            Dji
-                        </a></li>
-                        <li><a href="#">
-                            Parrot
-                        </a></li>
-                        <li><a href="#">
-                            Syma
-                        </a></li>
-                    </ul>
-                    </li>
-                    <li><a href="#">Ingresar <i class="icon-abajo2"></i></a>
-                    <ul class="submenu">
-                        <li><a href="./iniciar-sesion.html">
-                            ya tengo cuenta
-                        </a></li>
-                        <li><a href="./registrar.html">
-                            soy nuevo
-                        </a></li>
-                    </ul>
-                    </li>
-                    <li><a href="./mini2.html">Blog</a></li>
- 
-                </ul>
-            </nav>
-        </div>
-    </header>
-    <div class="content">
-        <div class="portada">
-            <main class="container-fluid">
-                <img class="img-fluid" src="./addsets/img1.png" alt="portada drone">
-                <div>
-                    <h1 class="display-2">titulo principal</h1>
-                    <p class="h2">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Velit quis repellendus necessitatibus, aliquid corrupti ipsa, impedit tempora numquam esse quae, quod nihil perferendis ipsum cupiditate! Tempora aut modi necessitatibus earum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam ex atque quod! Voluptates nisi consequatur animi rerum unde. Earum magni cum, sit maiores suscipit sequi fuga veniam excepturi. Provident, rerum.</p>
-                </div>
-            </main>
-        </div>
-        <section class="carousel">
-            <div class="container-fluid">
-                <div class="carousel__item">
-                    <img  data-bs-toggle="modal" data-bs-target="#exampleModal" src="./addsets/1.png" height="100%" alt="">
-                </div>
-                <div class="carousel__item">
-                    <img  data-bs-toggle="modal" data-bs-target="#exampleModal" src="./addsets/2.png" height="100%" alt="">
-                </div>
-                <div  data-bs-toggle="modal" data-bs-target="#exampleModal" class="carousel__item">
-                    <img src="./addsets/3.png" height="100%" alt="">
-                </div>
-                
-                
-            </div>
-        </section>    
-    </div>   
 
-  
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ups!!</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          parece que este blog aun no esta disponible :(
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-          <button type="button" class="btn btn-primary">Eentiendo</button>
-        </div>
-      </div>
-    </div>
-  </div>
-    
+<!-- <body> contiene todo lo que se ve en la página -->
+<body>
+
+    <!-- ===================== ENCABEZADO (se repite igual en las 4 páginas) ===================== -->
+    <!-- <header>: barra superior con el logo y el menú -->
+    <header class="header">
+        <!-- Caja interna que centra el contenido y lo limita a 1100px de ancho -->
+        <div class="header__container">
+            <!-- Logo de texto; es un enlace que siempre vuelve a la página de inicio -->
+            <a class="logo" href="./index.html">DRONER</a>
+            <!-- <nav>: bloque de navegación; aria-label le pone nombre para los lectores de pantalla -->
+            <nav class="menu" aria-label="Menú principal">
+                <!-- Lista de opciones del menú principal -->
+                <ul class="menu__lista">
+                    <!-- Opción "Inicio"; aria-current="page" marca que es la página actual (el CSS la resalta) -->
+                    <li class="menu__item"><a class="menu__link" href="./index.html" aria-current="page">Inicio</a></li>
+                    <!-- Opción "Marcas": contiene un submenú desplegable -->
+                    <li class="menu__item">
+                        <!-- Es un <button> y no un enlace porque no lleva a otra página: solo despliega el submenú -->
+                        <button class="menu__link" type="button">Marcas <span class="menu__flecha" aria-hidden="true">▾</span></button>
+                        <!-- Submenú: oculto por CSS, aparece al pasar el mouse o al enfocar el botón -->
+                        <ul class="submenu">
+                            <!-- DJI lleva al único artículo publicado de esa marca -->
+                            <li><a class="menu__link" href="./mini2.html">DJI</a></li>
+                            <!-- Parrot todavía no tiene página: se muestra como texto sin enlace -->
+                            <li><span class="submenu__proximamente">Parrot (próximamente)</span></li>
+                            <!-- Syma todavía no tiene página: se muestra como texto sin enlace -->
+                            <li><span class="submenu__proximamente">Syma (próximamente)</span></li>
+                        </ul> <!-- fin del submenú de marcas -->
+                    </li> <!-- fin de la opción "Marcas" -->
+                    <!-- Opción "Ingresar": contiene un submenú desplegable -->
+                    <li class="menu__item">
+                        <!-- Botón que despliega el submenú de acceso -->
+                        <button class="menu__link" type="button">Ingresar <span class="menu__flecha" aria-hidden="true">▾</span></button>
+                        <!-- Submenú con las dos formas de ingresar -->
+                        <ul class="submenu">
+                            <!-- Lleva al formulario de inicio de sesión -->
+                            <li><a class="menu__link" href="./iniciar-sesion.html">Ya tengo cuenta</a></li>
+                            <!-- Lleva al formulario de registro -->
+                            <li><a class="menu__link" href="./registrar.html">Soy nuevo</a></li>
+                        </ul> <!-- fin del submenú de ingreso -->
+                    </li> <!-- fin de la opción "Ingresar" -->
+                    <!-- Opción "Blog": lleva al artículo del DJI Mini 2 -->
+                    <li class="menu__item"><a class="menu__link" href="./mini2.html">Blog</a></li>
+                </ul> <!-- fin de la lista del menú -->
+            </nav> <!-- fin de la navegación -->
+        </div> <!-- fin de .header__container -->
+    </header> <!-- fin del encabezado -->
+
+    <!-- ===================== CONTENIDO PRINCIPAL ===================== -->
+    <!-- <main>: contenido único de esta página (solo puede haber uno por documento) -->
+    <main class="content">
+
+        <!-- Sección de portada: imagen grande, título y presentación del sitio -->
+        <section class="portada">
+            <!-- Imagen principal; img-fluid (Bootstrap) la achica en pantallas chicas; alt la describe si no carga -->
+            <img class="img-fluid" src="./assets/img/portada-drone.png" alt="Drone plegable negro con cuatro hélices visto de frente">
+            <!-- Título principal de la página (único <h1>); display-2 (Bootstrap) lo hace extra grande -->
+            <h1 class="display-2">Tu blog para empezar a volar</h1>
+            <!-- Párrafo de presentación con letra destacada -->
+            <p class="texto-destacado">Droner es un blog para quienes quieren iniciarse en el mundo de los drones: novedades, análisis de modelos y consejos de vuelo explicados de forma simple.</p>
+        </section> <!-- fin de la portada -->
+
+        <!-- Sección de galería; aria-label le pone nombre porque no tiene un título visible -->
+        <section class="galeria" aria-label="Entradas del blog">
+            <!-- Fila de miniaturas (con scroll horizontal si no entran en pantalla) -->
+            <div class="galeria__container">
+                <!-- Miniatura 1: es un <button> para poder usarla con teclado;
+                     data-bs-toggle y data-bs-target le dicen a Bootstrap que abra el modal #modalNoDisponible -->
+                <button class="galeria__item" type="button" data-bs-toggle="modal" data-bs-target="#modalNoDisponible">
+                    <!-- Foto del drone; el alt describe qué modelo es -->
+                    <img src="./assets/img/mavic-air-2.png" alt="DJI Mavic Air 2">
+                </button>
+                <!-- Miniatura 2: mismo comportamiento que la anterior -->
+                <button class="galeria__item" type="button" data-bs-toggle="modal" data-bs-target="#modalNoDisponible">
+                    <!-- Foto del drone -->
+                    <img src="./assets/img/mini-2-frente.png" alt="DJI Mini 2 plegado, visto de frente">
+                </button>
+                <!-- Miniatura 3: mismo comportamiento que las anteriores -->
+                <button class="galeria__item" type="button" data-bs-toggle="modal" data-bs-target="#modalNoDisponible">
+                    <!-- Foto del drone -->
+                    <img src="./assets/img/mini-2-lateral.png" alt="DJI Mini 2 plegado, visto de costado">
+                </button>
+            </div> <!-- fin de .galeria__container -->
+        </section> <!-- fin de la galería -->
+
+    </main> <!-- fin del contenido principal -->
+
+    <!-- ===================== MODAL (ventana emergente de Bootstrap) ===================== -->
+    <!-- Contenedor del modal: "fade" lo anima al abrirse; tabindex="-1" permite cerrarlo con Esc;
+         aria-labelledby apunta al título; aria-hidden="true" porque arranca oculto -->
+    <div class="modal fade" id="modalNoDisponible" tabindex="-1" aria-labelledby="modalNoDisponibleTitulo" aria-hidden="true">
+        <!-- Define el ancho y la posición de la ventana -->
+        <div class="modal-dialog">
+            <!-- Caja blanca con borde y sombra que contiene las tres partes del modal -->
+            <div class="modal-content">
+                <!-- Parte superior: título y botón de cerrar -->
+                <div class="modal-header">
+                    <!-- Título del modal; su id es el que usa aria-labelledby -->
+                    <h2 class="modal-title fs-5" id="modalNoDisponibleTitulo">¡Ups!</h2>
+                    <!-- Cruz de cerrar; data-bs-dismiss="modal" cierra la ventana; aria-label la describe -->
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div> <!-- fin de .modal-header -->
+                <!-- Parte central: el mensaje -->
+                <div class="modal-body">
+                    Parece que esta entrada del blog aún no está disponible :(
+                </div> <!-- fin de .modal-body -->
+                <!-- Parte inferior: botones de acción -->
+                <div class="modal-footer">
+                    <!-- Botón principal; data-bs-dismiss="modal" hace que cierre la ventana -->
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Entendido</button>
+                </div> <!-- fin de .modal-footer -->
+            </div> <!-- fin de .modal-content -->
+        </div> <!-- fin de .modal-dialog -->
+    </div> <!-- fin del modal -->
+
+    <!-- ===================== PIE DE PÁGINA (se repite igual en las 4 páginas) ===================== -->
+    <!-- <footer>: barra inferior con enlaces secundarios -->
     <footer class="footer">
-            <a href="/">Términos de uso</a>
-            <a href="/">Declaración de privacidad</a>
-            <a href="/">Centro de ayuda</a>
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <!-- Vuelve a la página de inicio -->
+        <a href="./index.html">Inicio</a>
+        <!-- Enlace pendiente: todavía no existe la página, por eso apunta a "#" -->
+        <a href="#">Términos de uso</a>
+        <!-- Enlace pendiente: todavía no existe la página -->
+        <a href="#">Declaración de privacidad</a>
+        <!-- Enlace pendiente: todavía no existe la página -->
+        <a href="#">Centro de ayuda</a>
+    </footer> <!-- fin del pie de página -->
+
+    <!-- JavaScript de Bootstrap (copia local). El "bundle" ya incluye Popper.
+         Esta página lo necesita para abrir y cerrar el modal.
+         Va al final del body para que el HTML se muestre antes de cargar el script. -->
+    <script src="./vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

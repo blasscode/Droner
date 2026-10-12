@@ -1,13 +1,29 @@
-# Dentro de Gitignore armo una lista de objetos a ignorar
-# Ignora archivos
-.DS_storepackage
-.json
-#Ignora carpetas
-node_modules
-#Ignorar subcarpetas
-#nombrecarpeta/nombresubcarpeta
-#ignorar todos los archivos dentro de un carpeta
+# ==============================================================================
+# .gitignore - Lista de archivos y carpetas que Git NO debe subir al repositorio
+# Reglas: una entrada por renglón. Las líneas que empiezan con # son comentarios.
+# ==============================================================================
 
-#nombrecarpeta/archivo
-# Ignora todos los archivos con la misma extensión
-*.txt*.gif
+# --- Archivos que genera el sistema operativo ---
+# macOS crea este archivo oculto en cada carpeta que se abre con el Finder
+.DS_Store
+# Windows crea este archivo con las miniaturas de las imágenes
+Thumbs.db
+
+# --- Carpetas de configuración de editores ---
+# Preferencias personales de Visual Studio Code
+.vscode/
+# Preferencias personales de los editores de JetBrains (WebStorm, etc.)
+.idea/
+
+# --- Dependencias ---
+# Paquetes instalados con npm: se regeneran con "npm install", no hace falta subirlos
+node_modules/
+
+# --- Registros ---
+# Archivos de log que generan algunas herramientas
+*.log
+
+# NOTA: la versión anterior tenía renglones pegados (".DS_storepackage" y "*.txt*.gif"),
+# por lo que ninguna de esas reglas funcionaba. Se separaron y se quitaron a propósito
+# "package.json", "*.txt" y "*.gif": son archivos que un proyecto web SÍ necesita subir
+# (la lista de dependencias, textos e imágenes animadas).

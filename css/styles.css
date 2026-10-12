@@ -1,0 +1,545 @@
+/* ==========================================================================
+   DRONER - Hoja de estilos propia del sitio
+   --------------------------------------------------------------------------
+   Este archivo se carga DESPUÉS de Bootstrap en todas las páginas, por eso
+   cualquier regla escrita acá le gana a una de Bootstrap que tenga el mismo
+   peso (especificidad).
+
+   Índice:
+     1. Variables globales
+     2. Reset y base
+     3. Encabezado (header) y logo
+     4. Menú de navegación y submenús
+     5. Contenido principal (fondo degradado)
+     6. Portada (página de inicio)
+     7. Galería de miniaturas (página de inicio)
+     8. Artículo del blog (página Mini 2)
+     9. Login y registro
+    10. Pie de página (footer)
+    11. Adaptación a pantallas chicas (responsive)
+
+   Convención de nombres: BEM  ->  bloque__elemento--modificador
+   Ejemplo: .login (bloque) / .login__container (elemento) /
+            .login__container--form (variante de ese elemento)
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1. VARIABLES GLOBALES
+   Se declaran en :root (la etiqueta <html>) para poder usarlas en todo el
+   archivo con var(--nombre). Si cambiás un color acá, cambia en todo el sitio.
+   ========================================================================== */
+:root {
+    --color-primario: #2ABECB;      /* Celeste: fondo del header e inicio del degradado */
+    --color-secundario: #7EBC89;    /* Verde: fondo del footer y final del degradado */
+    --color-oscuro: #475B5A;        /* Gris verdoso: fondo de los enlaces del menú al pasar el mouse */
+    --color-texto-menu: #6d6d6d;    /* Gris: texto de los enlaces del menú en reposo */
+    --color-claro: #ffffff;         /* Blanco: textos sobre fondos de color y fondo del submenú */
+    --alto-header: 65px;            /* Alto de la barra superior; también define el alto de línea del menú */
+    --alto-footer: 100px;           /* Alto mínimo del pie de página */
+    --ancho-maximo: 1100px;         /* Ancho máximo del contenido para que no se estire en monitores grandes */
+    --degradado: linear-gradient(var(--color-primario), var(--color-secundario)); /* Degradado vertical celeste -> verde reutilizado en varias secciones */
+}
+
+
+/* ==========================================================================
+   2. RESET Y BASE
+   ========================================================================== */
+
+/* El selector universal (*) apunta a TODOS los elementos de la página */
+* {
+    margin: 0;                  /* Quita los márgenes que cada navegador pone por defecto */
+    padding: 0;                 /* Quita los rellenos por defecto */
+    box-sizing: border-box;     /* Hace que width/height incluyan padding y borde (medidas más predecibles) */
+}
+
+/* El body es el contenedor de todo lo visible */
+body {
+    font-family: sans-serif;    /* Tipografía sin serifa del sistema; los hijos la heredan */
+    min-height: 100vh;          /* Como mínimo ocupa el 100% del alto de la ventana */
+    display: flex;              /* Flexbox para apilar header, main y footer */
+    flex-direction: column;     /* Los apila en columna (uno debajo del otro) */
+}
+
+
+/* ==========================================================================
+   3. ENCABEZADO (HEADER) Y LOGO
+   ========================================================================== */
+
+/* Barra superior de color que ocupa todo el ancho */
+.header {
+    background-color: var(--color-primario);    /* Fondo celeste */
+    width: 100%;                                /* Ocupa todo el ancho de la ventana */
+    position: relative;                         /* Necesario para que z-index tenga efecto */
+    z-index: 10;                                /* Lo ubica por encima del contenido, así el submenú no queda tapado */
+}
+
+/* Caja interna que centra el contenido del header y lo limita a 1100px.
+   Antes se usaba la clase .container, pero ese nombre ya existe en Bootstrap
+   y las dos reglas se pisaban entre sí. */
+.header__container {
+    display: flex;                      /* Flexbox: pone logo y menú en la misma fila */
+    align-items: center;                /* Los centra verticalmente */
+    justify-content: space-between;     /* Logo a la izquierda, menú a la derecha */
+    max-width: var(--ancho-maximo);     /* No crece más de 1100px */
+    min-height: var(--alto-header);     /* Altura mínima de la barra: 65px */
+    margin: 0 auto;                     /* Márgenes laterales automáticos = centrado horizontal */
+    padding: 0 1rem;                    /* Aire a los costados para que no toque el borde de la pantalla */
+}
+
+/* Logo de texto "DRONER" (es un enlace a la página de inicio) */
+.logo {
+    font-size: 2.5rem;                      /* Tamaño grande, similar al de un título */
+    font-weight: 500;                       /* Grosor medio */
+    line-height: var(--alto-header);        /* Alto de línea igual al header: centra el texto verticalmente */
+    color: #212529;                         /* Gris casi negro */
+    text-decoration: none;                  /* Sin subrayado de enlace */
+}
+
+/* Logo al pasar el mouse o al enfocarlo con el teclado */
+.logo:hover,
+.logo:focus-visible {
+    color: var(--color-claro);              /* Cambia a blanco para indicar que es clickeable */
+}
+
+
+/* ==========================================================================
+   4. MENÚ DE NAVEGACIÓN Y SUBMENÚS
+   ========================================================================== */
+
+/* Lista principal del menú (Inicio, Marcas, Ingresar, Blog) */
+.menu__lista {
+    display: flex;          /* Pone los ítems en fila */
+    list-style: none;       /* Quita las viñetas de la lista */
+    margin: 0;              /* Anula el margen inferior que Bootstrap le pone a las listas */
+    padding: 0;             /* Anula la sangría izquierda que Bootstrap le pone a las listas */
+}
+
+/* Cada ítem del menú principal */
+.menu__item {
+    position: relative;     /* Punto de referencia para posicionar su submenú con position: absolute */
+}
+
+/* Enlaces y botones del menú (comparten el mismo aspecto) */
+.menu__link {
+    display: block;                             /* Ocupa todo el ancho del ítem: toda la zona es clickeable */
+    padding: 0 20px;                            /* Espacio a izquierda y derecha del texto */
+    line-height: var(--alto-header);            /* Mismo alto que el header: texto centrado verticalmente */
+    color: var(--color-texto-menu);             /* Texto gris */
+    text-decoration: none;                      /* Sin subrayado */
+    background: none;                           /* Sin fondo (necesario para los <button>, que traen uno por defecto) */
+    border: 0;                                  /* Sin borde (ídem: los <button> traen borde) */
+    font: inherit;                              /* El <button> hereda la tipografía en lugar de usar la del sistema */
+    cursor: pointer;                            /* Cursor de "manito" */
+    white-space: nowrap;                        /* Evita que el texto se parta en dos renglones */
+    transition: background-color 500ms ease, color 500ms ease; /* Anima el cambio de fondo y color en medio segundo */
+}
+
+/* Estado del enlace: mouse encima, foco de teclado o página actual */
+.menu__link:hover,
+.menu__link:focus-visible,
+.menu__link[aria-current="page"] {
+    background: var(--color-oscuro);            /* Fondo gris verdoso */
+    color: var(--color-claro);                  /* Texto blanco */
+}
+
+/* Flechita (▾) que acompaña a los botones que abren un submenú */
+.menu__flecha {
+    font-size: 0.8em;       /* Un poco más chica que el texto */
+    margin-left: 4px;       /* Separación respecto del texto */
+}
+
+/* Submenú desplegable (lista oculta hasta que se pasa el mouse) */
+.submenu {
+    display: none;                                  /* Oculto por defecto */
+    position: absolute;                             /* Sale del flujo: flota sin empujar al resto del header */
+    top: 100%;                                      /* Arranca justo debajo del ítem padre */
+    left: 0;                                        /* Alineado al borde izquierdo del ítem padre */
+    min-width: 100%;                                /* Como mínimo, igual de ancho que el ítem padre */
+    list-style: none;                               /* Sin viñetas */
+    margin: 0;                                      /* Anula el margen de lista de Bootstrap */
+    padding: 0;                                     /* Anula la sangría de lista de Bootstrap */
+    background: var(--color-claro);                 /* Fondo blanco */
+    box-shadow: 3px 10px 10px rgba(0, 0, 0, 0.2);   /* Sombra suave para despegarlo del fondo */
+    z-index: 20;                                    /* Por encima de todo el contenido */
+}
+
+/* Muestra el submenú cuando el mouse está sobre el ítem padre (:hover)
+   o cuando algo adentro tiene el foco del teclado (:focus-within) */
+.menu__item:hover > .submenu,
+.menu__item:focus-within > .submenu {
+    display: block;         /* Lo vuelve visible */
+}
+
+/* Enlaces dentro del submenú: un poco más bajos que los del menú principal */
+.submenu .menu__link {
+    line-height: 50px;      /* Renglones de 50px de alto */
+}
+
+/* Opción del submenú que todavía no tiene página (texto sin enlace) */
+.submenu__proximamente {
+    display: block;         /* Ocupa todo el renglón, igual que un enlace */
+    padding: 0 20px;        /* Mismo relleno lateral que los enlaces */
+    line-height: 50px;      /* Mismo alto que los enlaces del submenú */
+    color: #9a9a9a;         /* Gris claro: se ve "apagado" */
+    white-space: nowrap;    /* En un solo renglón */
+    cursor: not-allowed;    /* Cursor de "prohibido": indica que no se puede clickear */
+}
+
+
+/* ==========================================================================
+   5. CONTENIDO PRINCIPAL
+   Es la etiqueta <main> de las páginas de inicio y del blog.
+   ========================================================================== */
+.content {
+    flex: 1;                            /* Ocupa todo el alto libre: empuja el footer al fondo de la ventana */
+    background: var(--degradado);       /* Fondo degradado celeste -> verde */
+    padding: 1rem;                      /* Aire interno en los cuatro lados */
+    text-align: center;                 /* Centra textos e imágenes en línea */
+}
+
+
+/* ==========================================================================
+   6. PORTADA (página de inicio)
+   ========================================================================== */
+
+/* Sección con la imagen grande, el título y el párrafo de presentación */
+.portada {
+    max-width: var(--ancho-maximo);     /* Limita el ancho a 1100px */
+    margin: 0 auto;                     /* La centra horizontalmente */
+    padding: 2rem 0;                    /* Espacio arriba y abajo */
+}
+
+/* Párrafo destacado (se usa en la portada y en el artículo del blog) */
+.texto-destacado {
+    max-width: 800px;       /* Renglones no demasiado largos: se leen mejor */
+    margin: 1rem auto 0;    /* 1rem arriba, centrado horizontal, 0 abajo */
+    font-size: 1.5rem;      /* Letra más grande que la de un párrafo común */
+    line-height: 1.5;       /* Interlineado cómodo para leer */
+}
+
+
+/* ==========================================================================
+   7. GALERÍA DE MINIATURAS (página de inicio)
+   Antes se llamaba .carousel, pero Bootstrap ya usa ese nombre para su
+   componente de carrusel (el de la página Mini 2) y las reglas chocaban.
+   Además el selector estaba escrito "..carousel" (con dos puntos), lo que
+   invalidaba la regla entera.
+   ========================================================================== */
+
+/* Sección que envuelve a la galería */
+.galeria {
+    width: 100%;            /* Ocupa todo el ancho disponible */
+}
+
+/* Fila de miniaturas */
+.galeria__container {
+    display: flex;              /* Flexbox: pone las miniaturas en fila */
+    justify-content: center;    /* Centra la fila horizontalmente */
+    gap: 10px;                  /* Separación de 10px entre miniaturas */
+    padding: 40px 8%;           /* Aire alrededor: deja lugar para la miniatura agrandada y para las que se corren */
+}
+
+/* Cada miniatura (es un <button> para que funcione con mouse y con teclado) */
+.galeria__item {
+    flex: 0 1 300px;                        /* No crece, sí se achica, y su ancho ideal es 300px: las tres entran en cualquier pantalla */
+    min-width: 0;                           /* Permite que se achique por debajo del tamaño de su imagen */
+    aspect-ratio: 2 / 1;                    /* El alto es siempre la mitad del ancho (300x150 en pantallas grandes) */
+    padding: 0;                             /* Sin relleno interno de botón */
+    border: 0;                              /* Sin borde de botón */
+    border-radius: 15px;                    /* Esquinas redondeadas */
+    background-color: transparent;          /* Sin fondo: se ve el degradado de atrás */
+    overflow: hidden;                       /* Recorta lo que sobresalga de las esquinas redondeadas */
+    cursor: pointer;                        /* Cursor de "manito" */
+    transition: 450ms all;                  /* Anima cualquier cambio (tamaño, posición, opacidad) */
+    transform-origin: center left;          /* Al agrandarse, crece desde su borde izquierdo */
+}
+
+/* Imagen dentro de la miniatura */
+.galeria__item img {
+    width: 100%;            /* Ocupa todo el ancho de la miniatura */
+    height: 100%;           /* Ocupa todo el alto de la miniatura */
+    object-fit: contain;    /* Se achica entera, sin recortarse ni deformarse */
+}
+
+/* Mientras el mouse está sobre la fila, todas las miniaturas se atenúan */
+.galeria__container:hover .galeria__item {
+    opacity: 0.3;           /* 30% de opacidad */
+}
+
+/* ...excepto la que tiene el mouse encima (o el foco), que se agranda y se ve nítida */
+.galeria__container:hover .galeria__item:hover,
+.galeria__item:focus-visible {
+    transform: scale(1.2);  /* Crece un 20% */
+    opacity: 1;             /* Opacidad completa */
+}
+
+/* Las miniaturas que están DESPUÉS de la señalada (selector ~) se corren a la derecha */
+.galeria__item:hover ~ .galeria__item {
+    transform: translate3d(20%, 0, 0);      /* 20% de su propio ancho = lo mismo que creció la anterior */
+}
+
+
+/* ==========================================================================
+   8. ARTÍCULO DEL BLOG (página Mini 2)
+   ========================================================================== */
+
+/* Contenedor del artículo */
+.articulo {
+    max-width: var(--ancho-maximo);     /* Limita el ancho a 1100px */
+    margin: 0 auto;                     /* Lo centra horizontalmente */
+}
+
+/* Imágenes del carrusel del artículo */
+.articulo__imagen {
+    display: block;         /* Elemento de bloque: permite centrarlo con márgenes automáticos */
+    width: 100%;            /* Ocupa el ancho disponible... */
+    max-width: 600px;       /* ...pero nunca más de 600px */
+    height: 350px;          /* Mismo alto en todas las diapositivas: el carrusel no "salta" al cambiar */
+    margin: 0 auto;         /* Centrada horizontalmente */
+    object-fit: contain;    /* La foto entra completa, sin deformarse */
+}
+
+/* Bloque de texto debajo del carrusel */
+.articulo__texto {
+    padding: 2rem 0;        /* Espacio arriba y abajo */
+}
+
+
+/* ==========================================================================
+   9. LOGIN Y REGISTRO
+   ========================================================================== */
+
+/* <main> de las páginas de login y registro: centra la tarjeta en pantalla */
+.login {
+    flex: 1;                            /* Ocupa el alto libre entre header y footer */
+    background: var(--degradado);       /* Mismo degradado que el resto del sitio */
+    display: flex;                      /* Flexbox para centrar la tarjeta */
+    align-items: center;                /* Centrado horizontal (el eje cruzado en una columna) */
+    justify-content: center;            /* Centrado vertical (el eje principal en una columna) */
+    flex-direction: column;             /* Eje principal vertical */
+    padding: 30px;                      /* Aire alrededor de la tarjeta */
+}
+
+/* Tarjeta translúcida que contiene el formulario */
+.login__container {
+    background-color: rgba(255, 255, 255, 0.1);    /* Blanco al 10%: efecto "vidrio" */
+    border: 2px solid var(--color-claro);          /* Borde blanco de 2px */
+    border-radius: 40px;                           /* Esquinas muy redondeadas */
+    padding: 40px;                                 /* Relleno interno de 40px en los cuatro lados */
+    min-height: 700px;                             /* Alto mínimo de la tarjeta */
+    width: 100%;                                   /* Se adapta al ancho disponible... */
+    max-width: 350px;                              /* ...hasta un máximo de 350px */
+    display: flex;                                 /* Flexbox para repartir los bloques internos */
+    justify-content: space-around;                 /* Reparte el espacio vertical sobrante entre los bloques */
+    flex-direction: column;                        /* Apila los bloques en columna */
+}
+
+/* Formulario: campos apilados uno debajo del otro */
+.login__container--form {
+    display: flex;              /* Flexbox */
+    flex-direction: column;     /* En columna */
+}
+
+/* Etiquetas visibles dentro del formulario (ej.: "Recuérdame") */
+.login__container--form label {
+    font-size: 14px;            /* Letra chica */
+}
+
+/* Fila con el checkbox "Recuérdame" y el enlace "Olvidé mi contraseña" */
+.login__container--remember-me {
+    color: var(--color-claro);          /* Texto blanco */
+    display: flex;                      /* Flexbox: los dos elementos en la misma fila */
+    justify-content: space-between;     /* Uno en cada extremo */
+    align-items: center;                /* Alineados verticalmente al centro */
+    flex-wrap: wrap;                    /* Si no entran en un renglón, el enlace baja al siguiente */
+    gap: 5px 10px;                      /* Separación mínima: 5px entre renglones, 10px entre columnas */
+    margin-top: 10px;                   /* Separación respecto del botón */
+}
+
+/* Etiqueta "Recuérdame": mantiene la casilla y su texto en el mismo renglón */
+.login__container--remember-me label {
+    display: flex;                      /* Flexbox: casilla y texto en fila */
+    align-items: center;                /* Centrados verticalmente entre sí */
+}
+
+/* Casilla de verificación "Recuérdame" */
+.login__container--remember-me input {
+    margin-right: 5px;                  /* Separa la casilla de su texto */
+}
+
+/* Enlace "Olvidé mi contraseña" */
+.login__container--remember-me a {
+    color: var(--color-claro);          /* Blanco */
+    font-size: 14px;                    /* Letra chica */
+    text-decoration: none;              /* Sin subrayado */
+}
+
+/* ...subrayado solo al pasar el mouse */
+.login__container--remember-me a:hover {
+    text-decoration: underline;         /* Aparece el subrayado */
+}
+
+/* Mensaje que escribe js/formularios.js al enviar el formulario */
+.login__mensaje {
+    min-height: 1.5em;                  /* Reserva un renglón: la tarjeta no "salta" cuando aparece el texto */
+    margin: 10px 0 0;                   /* Solo margen superior */
+    color: var(--color-claro);          /* Texto blanco */
+    font-size: 14px;                    /* Letra chica */
+}
+
+/* Cada opción de acceso con red social (ícono + texto) */
+.login__container--social-media > div {
+    display: flex;                      /* Flexbox: ícono y texto en fila */
+    align-items: center;                /* Alineados verticalmente al centro */
+    font-size: 14px;                    /* Letra chica */
+    margin-bottom: 10px;                /* Separación entre opciones */
+    color: var(--color-claro);          /* Texto blanco */
+}
+
+/* Ícono de la red social */
+.login__container--social-media > div > img {
+    width: 30px;                        /* Ancho fijo de 30px */
+    margin-right: 10px;                 /* Separación respecto del texto */
+}
+
+/* Texto al pie de la tarjeta ("No tenés ninguna cuenta...") */
+.login__container--register {
+    font-size: 14px;                    /* Letra chica */
+    color: var(--color-claro);          /* Blanco */
+    margin: 0;                          /* Anula el margen inferior que Bootstrap le pone a los <p> */
+}
+
+/* Enlace dentro de ese texto ("Regístrate" / "Atrás") */
+.login__container--register a {
+    color: var(--color-claro);          /* Blanco */
+    font-size: 16px;                    /* Un poco más grande que el texto que lo rodea */
+    font-weight: bold;                  /* En negrita para destacarlo */
+    text-decoration: none;              /* Sin subrayado */
+}
+
+/* ...subrayado solo al pasar el mouse */
+.login__container--register a:hover {
+    text-decoration: underline;         /* Aparece el subrayado */
+}
+
+/* Campos de texto del formulario (solo tienen la línea inferior) */
+.input {
+    background-color: transparent;                  /* Sin fondo: se ve la tarjeta */
+    border: 0;                                      /* Quita los cuatro bordes... */
+    border-bottom: 2px solid var(--color-claro);    /* ...y deja solo una línea blanca abajo */
+    font-size: 16px;                                /* Tamaño de letra del texto que se escribe */
+    margin-bottom: 10px;                            /* Separación entre campos */
+    padding: 0 20px;                                /* Relleno a los costados */
+    outline: none;                                  /* Quita el recuadro de foco por defecto */
+    height: 50px;                                   /* Alto del campo */
+}
+
+/* Como se quitó el outline, se marca el foco engrosando la línea inferior */
+.input:focus {
+    border-bottom-width: 4px;                       /* Línea de 4px: indica en qué campo se está escribiendo */
+}
+
+/* Texto de ayuda que se ve dentro de los campos vacíos */
+.input::placeholder {
+    color: var(--color-claro);                      /* Blanco */
+}
+
+/* Botón principal del formulario */
+.button {
+    background-color: rgba(255, 255, 255, 0.1);    /* Blanco al 10% */
+    border-radius: 25px;                           /* Forma de "píldora" */
+    color: var(--color-claro);                     /* Texto blanco */
+    cursor: pointer;                               /* Cursor de "manito" */
+    font-size: 16px;                               /* Tamaño de letra */
+    font-weight: bold;                             /* Negrita */
+    border: none;                                  /* Sin borde */
+    height: 50px;                                  /* Alto del botón */
+    letter-spacing: 1px;                           /* Letras apenas separadas */
+    margin: 10px 0;                                /* Margen arriba y abajo */
+}
+
+/* Botón al pasar el mouse o al enfocarlo con el teclado */
+.button:hover,
+.button:focus-visible {
+    background-color: rgba(255, 255, 255, 0.3);    /* Se aclara para dar respuesta visual */
+}
+
+
+/* ==========================================================================
+   10. PIE DE PÁGINA (FOOTER)
+   ========================================================================== */
+
+/* Barra inferior verde con los enlaces legales */
+.footer {
+    display: flex;                              /* Flexbox: enlaces en fila */
+    align-items: center;                        /* Centrados verticalmente */
+    flex-wrap: wrap;                            /* Si no entran, bajan al renglón siguiente */
+    min-height: var(--alto-footer);             /* Alto mínimo de 100px */
+    width: 100%;                                /* Ocupa todo el ancho */
+    background: var(--color-secundario);        /* Fondo verde */
+}
+
+/* Enlaces del footer */
+.footer a {
+    font-size: 14px;                            /* Letra chica */
+    color: var(--color-claro);                  /* Blanco */
+    padding-left: 30px;                         /* Separación entre un enlace y el anterior */
+    text-decoration: none;                      /* Sin subrayado */
+}
+
+/* ...subrayado solo al pasar el mouse */
+.footer a:hover {
+    text-decoration: underline;                 /* Aparece el subrayado */
+}
+
+
+/* ==========================================================================
+   11. ADAPTACIÓN A PANTALLAS CHICAS (RESPONSIVE)
+   Estas reglas solo se aplican cuando la ventana mide 600px de ancho o menos
+   (celulares). Pisan a las reglas de arriba porque están escritas después.
+   ========================================================================== */
+@media only screen and (max-width: 600px) {
+
+    /* El header pasa a dos renglones: logo arriba y menú abajo */
+    .header__container {
+        flex-direction: column;     /* Apila logo y menú en columna */
+        padding: 0;                 /* Sin relleno lateral: el menú aprovecha todo el ancho */
+    }
+
+    /* Enlaces del menú más compactos para que entren los cuatro */
+    .menu__link {
+        padding: 0 12px;            /* Menos relleno lateral */
+        line-height: 45px;          /* Renglón más bajo */
+    }
+
+    /* Párrafos destacados con letra más chica */
+    .texto-destacado {
+        font-size: 1.15rem;         /* Evita renglones de dos o tres palabras */
+    }
+
+    /* Imágenes del carrusel más bajas */
+    .articulo__imagen {
+        height: 220px;              /* Proporción más adecuada para una pantalla angosta */
+    }
+
+    /* Menos aire alrededor de la tarjeta de login */
+    .login {
+        padding: 30px 20px;         /* Reduce el relleno lateral */
+    }
+
+    /* La tarjeta de login pierde el recuadro y aprovecha toda la pantalla */
+    .login__container {
+        background-color: transparent;  /* Sin fondo translúcido */
+        border: none;                   /* Sin borde */
+        padding: 0;                     /* Sin relleno interno */
+    }
+
+    /* Los enlaces del footer se apilan en columna */
+    .footer {
+        align-items: flex-start;    /* Alineados a la izquierda */
+        flex-direction: column;     /* Uno debajo del otro */
+        justify-content: center;    /* Centrados verticalmente dentro del footer */
+        padding: 15px 0;            /* Aire arriba y abajo */
+    }
+}
