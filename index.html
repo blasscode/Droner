@@ -23,12 +23,20 @@
     <link rel="stylesheet" href="./vendor/bootstrap/css/bootstrap.min.css">
     <!-- Hoja de estilos propia; va DESPUÉS de Bootstrap para poder pisar sus reglas -->
     <link rel="stylesheet" href="./css/styles.css">
+
+    <!-- Scripts propios. "defer" los ejecuta recién cuando el HTML terminó de leerse, y en este mismo orden -->
+    <!-- 1) Función pedirApi para hablar con el backend; va primero porque los demás la usan -->
+    <script src="./js/api.js" defer></script>
+    <!-- 2) Cambia la opción "Ingresar" del menú si hay una sesión iniciada -->
+    <script src="./js/sesion.js" defer></script>
+    <!-- 3) Trae del backend los textos que el administrador puede editar -->
+    <script src="./js/contenido.js" defer></script>
 </head>
 
 <!-- <body> contiene todo lo que se ve en la página -->
 <body>
 
-    <!-- ===================== ENCABEZADO (se repite igual en las 4 páginas) ===================== -->
+    <!-- ===================== ENCABEZADO (se repite igual en todas las páginas) ===================== -->
     <!-- <header>: barra superior con el logo y el menú -->
     <header class="header">
         <!-- Caja interna que centra el contenido y lo limita a 1100px de ancho -->
@@ -55,10 +63,13 @@
                             <li><span class="submenu__proximamente">Syma (próximamente)</span></li>
                         </ul> <!-- fin del submenú de marcas -->
                     </li> <!-- fin de la opción "Marcas" -->
-                    <!-- Opción "Ingresar": contiene un submenú desplegable -->
-                    <li class="menu__item">
-                        <!-- Botón que despliega el submenú de acceso -->
-                        <button class="menu__link" type="button">Ingresar <span class="menu__flecha" aria-hidden="true">▾</span></button>
+                    <!-- Opción "Ingresar": contiene un submenú desplegable.
+                         data-menu-sesion es la marca que busca js/sesion.js: si hay una sesión iniciada,
+                         reemplaza este submenú por "Mi cuenta" y "Cerrar sesión" -->
+                    <li class="menu__item" data-menu-sesion>
+                        <!-- Botón que despliega el submenú de acceso; el <span> marcado con data-menu-sesion-texto
+                             es el texto que js/sesion.js cambia por "Hola, (nombre)" -->
+                        <button class="menu__link" type="button"><span data-menu-sesion-texto>Ingresar</span> <span class="menu__flecha" aria-hidden="true">▾</span></button>
                         <!-- Submenú con las dos formas de ingresar -->
                         <ul class="submenu">
                             <!-- Lleva al formulario de inicio de sesión -->
@@ -83,9 +94,10 @@
             <!-- Imagen principal; img-fluid (Bootstrap) la achica en pantallas chicas; alt la describe si no carga -->
             <img class="img-fluid" src="./assets/img/portada-drone.png" alt="Drone plegable negro con cuatro hélices visto de frente">
             <!-- Título principal de la página (único <h1>); display-2 (Bootstrap) lo hace extra grande -->
-            <h1 class="display-2">Tu blog para empezar a volar</h1>
-            <!-- Párrafo de presentación con letra destacada -->
-            <p class="texto-destacado">Droner es un blog para quienes quieren iniciarse en el mundo de los drones: novedades, análisis de modelos y consejos de vuelo explicados de forma simple.</p>
+            <!-- data-contenido="portadaTitulo": js/contenido.js reemplaza este texto por el que guardó el administrador -->
+            <h1 class="display-2" data-contenido="portadaTitulo">Tu blog para empezar a volar</h1>
+            <!-- Párrafo de presentación con letra destacada; también editable desde el panel (portadaTexto) -->
+            <p class="texto-destacado" data-contenido="portadaTexto">Droner es un blog para quienes quieren iniciarse en el mundo de los drones: novedades, análisis de modelos y consejos de vuelo explicados de forma simple.</p>
         </section> <!-- fin de la portada -->
 
         <!-- Sección de galería; aria-label le pone nombre porque no tiene un título visible -->
@@ -141,7 +153,7 @@
         </div> <!-- fin de .modal-dialog -->
     </div> <!-- fin del modal -->
 
-    <!-- ===================== PIE DE PÁGINA (se repite igual en las 4 páginas) ===================== -->
+    <!-- ===================== PIE DE PÁGINA (se repite igual en todas las páginas) ===================== -->
     <!-- <footer>: barra inferior con enlaces secundarios -->
     <footer class="footer">
         <!-- Vuelve a la página de inicio -->

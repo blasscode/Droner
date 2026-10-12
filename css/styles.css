@@ -16,7 +16,8 @@
      8. Artículo del blog (página Mini 2)
      9. Login y registro
     10. Pie de página (footer)
-    11. Adaptación a pantallas chicas (responsive)
+    11. Panel (páginas "Mi cuenta" y "Panel de administración")
+    12. Adaptación a pantallas chicas (responsive)
 
    Convención de nombres: BEM  ->  bloque__elemento--modificador
    Ejemplo: .login (bloque) / .login__container (elemento) /
@@ -495,7 +496,60 @@ body {
 
 
 /* ==========================================================================
-   11. ADAPTACIÓN A PANTALLAS CHICAS (RESPONSIVE)
+   11. PANEL (páginas "Mi cuenta" y "Panel de administración")
+   ========================================================================== */
+
+/* Contenedor centrado de las páginas privadas */
+.panel {
+    max-width: 900px;       /* Ancho máximo cómodo para formularios y tablas */
+    margin: 0 auto;         /* Centrado horizontal */
+    padding: 1rem 0 2rem;   /* Aire arriba y abajo */
+    text-align: left;       /* Anula el centrado que hereda de .content: formularios y tablas se leen mejor alineados a la izquierda */
+}
+
+/* Variante más angosta, para la página "Mi cuenta" */
+.panel--angosto {
+    max-width: 520px;       /* Tiene poco contenido: no necesita tanto ancho */
+}
+
+/* Título de la página */
+.panel__titulo {
+    text-align: center;     /* Centrado, igual que los títulos del resto del sitio */
+    margin-bottom: 1.5rem;  /* Separación respecto de la primera tarjeta */
+}
+
+/* Tarjeta blanca que agrupa cada sección */
+.panel__tarjeta {
+    background: rgba(255, 255, 255, 0.9);   /* Blanco al 90%: deja entrever el degradado pero el texto oscuro se lee bien */
+    border-radius: 20px;                    /* Esquinas redondeadas */
+    padding: 1.5rem;                        /* Relleno interno */
+    margin-bottom: 1.5rem;                  /* Separación entre tarjetas */
+}
+
+/* Lista de datos de la cuenta (pares nombre / valor) */
+.panel__datos dt {
+    font-size: 14px;        /* Letra chica para el nombre del dato */
+    font-weight: normal;    /* Sin negrita (por defecto los <dt> la traen) */
+    color: #5c6b6a;         /* Gris: le da menos peso que al valor */
+}
+
+/* Valor de cada dato */
+.panel__datos dd {
+    font-size: 1.15rem;         /* Más grande que el nombre del dato */
+    margin-bottom: 1rem;        /* Separación respecto del dato siguiente */
+    overflow-wrap: anywhere;    /* Un correo muy largo se parte en vez de salirse de la tarjeta */
+}
+
+/* Párrafo de mensajes del panel (confirmaciones y errores) */
+.panel__mensaje {
+    min-height: 1.5em;      /* Reserva un renglón: la página no "salta" cuando aparece el texto */
+    margin: 0.75rem 0 0;    /* Solo margen superior */
+    font-size: 14px;        /* Letra chica */
+}
+
+
+/* ==========================================================================
+   12. ADAPTACIÓN A PANTALLAS CHICAS (RESPONSIVE)
    Estas reglas solo se aplican cuando la ventana mide 600px de ancho o menos
    (celulares). Pisan a las reglas de arriba porque están escritas después.
    ========================================================================== */

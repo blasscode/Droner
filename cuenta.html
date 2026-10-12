@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<!-- La línea de arriba (DOCTYPE) le avisa al navegador que este documento es HTML5 -->
+
+<!-- <html> es la raíz del documento; lang="es" indica que el contenido está en español -->
+<html lang="es">
+
+<!-- <head> contiene información sobre la página que NO se muestra dentro de la ventana -->
+<head>
+    <!-- Codificación de caracteres: UTF-8 permite escribir tildes, ñ y símbolos sin que se rompan -->
+    <meta charset="UTF-8">
+    <!-- Hace que en celulares la página use el ancho real de la pantalla y arranque sin zoom -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Título de la pestaña del navegador -->
+    <title>Droner | Mi cuenta</title>
+    <!-- Descripción corta de la página -->
+    <meta name="description" content="Datos de tu cuenta de Droner.">
+    <!-- Página privada: les pide a los buscadores que no la incluyan en sus resultados -->
+    <meta name="robots" content="noindex">
+
+    <!-- Hoja de estilos de Bootstrap 5.1.3 (copia local minificada) -->
+    <link rel="stylesheet" href="./vendor/bootstrap/css/bootstrap.min.css">
+    <!-- Hoja de estilos propia; va DESPUÉS de Bootstrap para poder pisar sus reglas -->
+    <link rel="stylesheet" href="./css/styles.css">
+
+    <!-- Scripts propios. "defer" los ejecuta recién cuando el HTML terminó de leerse, y en este mismo orden -->
+    <!-- 1) Función pedirApi para hablar con el backend; va primero porque los demás la usan -->
+    <script src="./js/api.js" defer></script>
+    <!-- 2) Cambia la opción "Ingresar" del menú si hay una sesión iniciada; define cerrarSesion -->
+    <script src="./js/sesion.js" defer></script>
+    <!-- 3) Trae los datos de la cuenta y los escribe en esta página -->
+    <script src="./js/cuenta.js" defer></script>
+</head>
+
+<!-- <body> contiene todo lo que se ve en la página -->
+<body>
+
+    <!-- ===================== ENCABEZADO (se repite igual en todas las páginas) ===================== -->
+    <!-- <header>: barra superior con el logo y el menú -->
+    <header class="header">
+        <!-- Caja interna que centra el contenido y lo limita a 1100px de ancho -->
+        <div class="header__container">
+            <!-- Logo de texto; es un enlace que siempre vuelve a la página de inicio -->
+            <a class="logo" href="./index.html">DRONER</a>
+            <!-- <nav>: bloque de navegación; aria-label le pone nombre para los lectores de pantalla -->
+            <nav class="menu" aria-label="Menú principal">
+                <!-- Lista de opciones del menú principal -->
+                <ul class="menu__lista">
+                    <!-- Opción "Inicio" -->
+                    <li class="menu__item"><a class="menu__link" href="./index.html">Inicio</a></li>
+                    <!-- Opción "Marcas": contiene un submenú desplegable -->
+                    <li class="menu__item">
+                        <!-- Es un <button> y no un enlace porque no lleva a otra página: solo despliega el submenú -->
+                        <button class="menu__link" type="button">Marcas <span class="menu__flecha" aria-hidden="true">▾</span></button>
+                        <!-- Submenú: oculto por CSS, aparece al pasar el mouse o al enfocar el botón -->
+                        <ul class="submenu">
+                            <!-- DJI lleva al único artículo publicado de esa marca -->
+                            <li><a class="menu__link" href="./mini2.html">DJI</a></li>
+                            <!-- Parrot todavía no tiene página: se muestra como texto sin enlace -->
+                            <li><span class="submenu__proximamente">Parrot (próximamente)</span></li>
+                            <!-- Syma todavía no tiene página: se muestra como texto sin enlace -->
+                            <li><span class="submenu__proximamente">Syma (próximamente)</span></li>
+                        </ul> <!-- fin del submenú de marcas -->
+                    </li> <!-- fin de la opción "Marcas" -->
+                    <!-- Opción "Ingresar": contiene un submenú desplegable.
+                         data-menu-sesion es la marca que busca js/sesion.js: si hay una sesión iniciada,
+                         reemplaza este submenú por "Mi cuenta" y "Cerrar sesión" -->
+                    <li class="menu__item" data-menu-sesion>
+                        <!-- Botón que despliega el submenú de acceso; el <span> marcado con data-menu-sesion-texto
+                             es el texto que js/sesion.js cambia por "Hola, (nombre)" -->
+                        <button class="menu__link" type="button"><span data-menu-sesion-texto>Ingresar</span> <span class="menu__flecha" aria-hidden="true">▾</span></button>
+                        <!-- Submenú con las dos formas de ingresar -->
+                        <ul class="submenu">
+                            <!-- Lleva al formulario de inicio de sesión -->
+                            <li><a class="menu__link" href="./iniciar-sesion.html">Ya tengo cuenta</a></li>
+                            <!-- Lleva al formulario de registro -->
+                            <li><a class="menu__link" href="./registrar.html">Soy nuevo</a></li>
+                        </ul> <!-- fin del submenú de ingreso -->
+                    </li> <!-- fin de la opción "Ingresar" -->
+                    <!-- Opción "Blog": lleva al artículo del DJI Mini 2 -->
+                    <li class="menu__item"><a class="menu__link" href="./mini2.html">Blog</a></li>
+                </ul> <!-- fin de la lista del menú -->
+            </nav> <!-- fin de la navegación -->
+        </div> <!-- fin de .header__container -->
+    </header> <!-- fin del encabezado -->
+
+    <!-- ===================== CONTENIDO PRINCIPAL ===================== -->
+    <!-- Esta página solo se puede abrir con una sesión iniciada: sin sesión, el servidor redirige al login -->
+    <!-- <main>: contenido único de esta página; la clase content pone el fondo degradado -->
+    <main class="content">
+        <!-- Contenedor angosto y centrado que comparten "Mi cuenta" y el panel de administración -->
+        <div class="panel panel--angosto">
+            <!-- Título principal de la página (único <h1>) -->
+            <h1 class="panel__titulo">Mi cuenta</h1>
+
+            <!-- Tarjeta blanca con los datos de la cuenta -->
+            <section class="panel__tarjeta" aria-label="Datos de la cuenta">
+                <!-- <dl> es una lista de pares "nombre del dato / valor": <dt> es el nombre y <dd> el valor.
+                     Los <dd> arrancan con "…" y js/cuenta.js los completa buscándolos por su atributo data-cuenta -->
+                <dl class="panel__datos">
+                    <!-- Nombre del dato -->
+                    <dt>Nombre</dt>
+                    <!-- Valor: lo completa el script -->
+                    <dd data-cuenta="nombre">…</dd>
+                    <!-- Nombre del dato -->
+                    <dt>Correo</dt>
+                    <!-- Valor: lo completa el script -->
+                    <dd data-cuenta="correo">…</dd>
+                    <!-- Nombre del dato -->
+                    <dt>Tipo de cuenta</dt>
+                    <!-- Valor: "Usuario" o "Administrador" -->
+                    <dd data-cuenta="rol">…</dd>
+                    <!-- Nombre del dato -->
+                    <dt>Miembro desde</dt>
+                    <!-- Valor: fecha en que se creó la cuenta -->
+                    <dd data-cuenta="creado">…</dd>
+                </dl> <!-- fin de la lista de datos -->
+
+                <!-- Fila de botones; d-flex, gap-2 y flex-wrap son utilidades de Bootstrap (en fila, separados, bajan si no entran) -->
+                <div class="d-flex gap-2 flex-wrap">
+                    <!-- Enlace al panel con aspecto de botón. "hidden" lo oculta: js/cuenta.js lo muestra solo a los administradores -->
+                    <a class="btn btn-primary" href="./admin.html" data-cuenta="enlace-admin" hidden>Ir al panel de administración</a>
+                    <!-- Botón para cerrar la sesión; js/cuenta.js le conecta la función cerrarSesion -->
+                    <button class="btn btn-outline-secondary" type="button" data-cuenta="salir">Cerrar sesión</button>
+                </div> <!-- fin de la fila de botones -->
+            </section> <!-- fin de la tarjeta -->
+        </div> <!-- fin de .panel -->
+    </main> <!-- fin del contenido principal -->
+
+    <!-- ===================== PIE DE PÁGINA (se repite igual en todas las páginas) ===================== -->
+    <!-- <footer>: barra inferior con enlaces secundarios -->
+    <footer class="footer">
+        <!-- Vuelve a la página de inicio -->
+        <a href="./index.html">Inicio</a>
+        <!-- Enlace pendiente: todavía no existe la página, por eso apunta a "#" -->
+        <a href="#">Términos de uso</a>
+        <!-- Enlace pendiente: todavía no existe la página -->
+        <a href="#">Declaración de privacidad</a>
+        <!-- Enlace pendiente: todavía no existe la página -->
+        <a href="#">Centro de ayuda</a>
+    </footer> <!-- fin del pie de página -->
+
+    <!-- Esta página no carga el JavaScript de Bootstrap porque no usa modal ni carrusel -->
+</body>
+</html>

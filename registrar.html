@@ -23,14 +23,20 @@
     <link rel="stylesheet" href="./vendor/bootstrap/css/bootstrap.min.css">
     <!-- Hoja de estilos propia; va DESPUÉS de Bootstrap para poder pisar sus reglas -->
     <link rel="stylesheet" href="./css/styles.css">
-    <!-- Script propio de los formularios; "defer" lo ejecuta recién cuando el HTML terminó de leerse -->
+
+    <!-- Scripts propios. "defer" los ejecuta recién cuando el HTML terminó de leerse, y en este mismo orden -->
+    <!-- 1) Función pedirApi para hablar con el backend; va primero porque los demás la usan -->
+    <script src="./js/api.js" defer></script>
+    <!-- 2) Cambia la opción "Ingresar" del menú si hay una sesión iniciada -->
+    <script src="./js/sesion.js" defer></script>
+    <!-- 3) Envía este formulario al backend y redirige según la respuesta -->
     <script src="./js/formularios.js" defer></script>
 </head>
 
 <!-- <body> contiene todo lo que se ve en la página -->
 <body>
 
-    <!-- ===================== ENCABEZADO (se repite igual en las 4 páginas) ===================== -->
+    <!-- ===================== ENCABEZADO (se repite igual en todas las páginas) ===================== -->
     <!-- <header>: barra superior con el logo y el menú -->
     <header class="header">
         <!-- Caja interna que centra el contenido y lo limita a 1100px de ancho -->
@@ -57,10 +63,13 @@
                             <li><span class="submenu__proximamente">Syma (próximamente)</span></li>
                         </ul> <!-- fin del submenú de marcas -->
                     </li> <!-- fin de la opción "Marcas" -->
-                    <!-- Opción "Ingresar": contiene un submenú desplegable -->
-                    <li class="menu__item">
-                        <!-- Botón que despliega el submenú de acceso -->
-                        <button class="menu__link" type="button">Ingresar <span class="menu__flecha" aria-hidden="true">▾</span></button>
+                    <!-- Opción "Ingresar": contiene un submenú desplegable.
+                         data-menu-sesion es la marca que busca js/sesion.js: si hay una sesión iniciada,
+                         reemplaza este submenú por "Mi cuenta" y "Cerrar sesión" -->
+                    <li class="menu__item" data-menu-sesion>
+                        <!-- Botón que despliega el submenú de acceso; el <span> marcado con data-menu-sesion-texto
+                             es el texto que js/sesion.js cambia por "Hola, (nombre)" -->
+                        <button class="menu__link" type="button"><span data-menu-sesion-texto>Ingresar</span> <span class="menu__flecha" aria-hidden="true">▾</span></button>
                         <!-- Submenú con las dos formas de ingresar -->
                         <ul class="submenu">
                             <!-- Lleva al formulario de inicio de sesión -->
@@ -84,9 +93,9 @@
             <!-- Título principal de la página (único <h1>); la clase h2 de Bootstrap le da un tamaño más moderado -->
             <h1 class="h2">Crear cuenta</h1>
 
-            <!-- Formulario. method="post" evita que, si el script no cargara, la contraseña viaje visible en la URL.
-                 El envío real lo frena js/formularios.js porque todavía no hay servidor. -->
-            <form class="login__container--form" method="post" action="#">
+            <!-- Formulario. data-formulario="registro" le indica a js/formularios.js que debe enviarlo a POST /api/registro.
+                 method="post" evita que, si el script no cargara, la contraseña viaje visible en la URL. -->
+            <form class="login__container--form" method="post" action="#" data-formulario="registro">
                 <!-- Etiqueta del campo nombre: visually-hidden la oculta a la vista pero la leen los lectores de pantalla;
                      "for" la vincula con el campo cuyo id es "nombre" -->
                 <label class="visually-hidden" for="nombre">Nombre</label>
@@ -100,11 +109,12 @@
                 <!-- Etiqueta del campo contraseña (solo para lectores de pantalla) -->
                 <label class="visually-hidden" for="contrasena">Contraseña</label>
                 <!-- Campo de contraseña: type="password" oculta lo que se escribe;
-                     autocomplete="new-password" le avisa al navegador que es una contraseña nueva (puede ofrecer generar una) -->
-                <input class="input" type="password" id="contrasena" name="contrasena" placeholder="Contraseña" autocomplete="new-password" required>
+                     autocomplete="new-password" le avisa al navegador que es una contraseña nueva (puede ofrecer generar una);
+                     minlength="8" exige al menos 8 caracteres (el servidor valida lo mismo) -->
+                <input class="input" type="password" id="contrasena" name="contrasena" placeholder="Contraseña (mínimo 8 caracteres)" autocomplete="new-password" minlength="8" required>
                 <!-- Botón de envío: type="submit" dispara el evento submit del formulario -->
                 <button class="button" type="submit">Registrarme</button>
-                <!-- Párrafo vacío donde js/formularios.js escribe su aviso;
+                <!-- Párrafo vacío donde js/formularios.js escribe los errores que devuelve el servidor;
                      role="status" hace que los lectores de pantalla lo anuncien cuando cambia -->
                 <p class="login__mensaje" role="status"></p>
             </form> <!-- fin del formulario -->
@@ -122,7 +132,7 @@
         </section> <!-- fin de la tarjeta -->
     </main> <!-- fin del contenido principal -->
 
-    <!-- ===================== PIE DE PÁGINA (se repite igual en las 4 páginas) ===================== -->
+    <!-- ===================== PIE DE PÁGINA (se repite igual en todas las páginas) ===================== -->
     <!-- <footer>: barra inferior con enlaces secundarios -->
     <footer class="footer">
         <!-- Vuelve a la página de inicio -->

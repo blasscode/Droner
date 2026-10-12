@@ -19,6 +19,15 @@ Thumbs.db
 # Paquetes instalados con npm: se regeneran con "npm install", no hace falta subirlos
 node_modules/
 
+# --- Datos generados por el backend ---
+# Se crean solos en el primer arranque a partir de backend/datos/semilla.json.
+# Tienen las cuentas registradas (con el hash de sus contraseñas) y los textos editados:
+# son datos de cada instalación, no parte del código.
+backend/datos/usuarios.json
+backend/datos/contenido.json
+# Archivos temporales que usa el almacén mientras guarda
+backend/datos/*.tmp
+
 # --- Registros ---
 # Archivos de log que generan algunas herramientas
 *.log

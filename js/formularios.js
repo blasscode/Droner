@@ -1,35 +1,70 @@
 /* ==========================================================================
-   DRONER - Comportamiento de los formularios de login y registro
+   DRONER - Formularios de inicio de sesión y de registro
    --------------------------------------------------------------------------
-   El sitio es estático: no hay un servidor que reciba los datos. Sin este
-   archivo, al apretar "Iniciar sesión" o "Registrarme" el navegador intentaba
-   enviar el formulario y simplemente recargaba la página.
-   Este script frena ese envío y le avisa al usuario que la función todavía
-   no está disponible.
+   Se carga en iniciar-sesion.html y registrar.html. Toma lo que el usuario
+   escribió, lo manda al backend y, según la respuesta, lo redirige o le
+   muestra el error.
 
-   Se carga con el atributo "defer" desde iniciar-sesion.html y registrar.html,
-   así que se ejecuta cuando el HTML ya terminó de leerse.
+   El formulario indica cuál de los dos es con el atributo data-formulario:
+       data-formulario="login"      ->  POST /api/login
+       data-formulario="registro"   ->  POST /api/registro
+
+   Necesita que js/api.js se haya cargado antes.
    ========================================================================== */
 
-// Busca en la página todos los formularios que tengan la clase del formulario de login/registro.
-// querySelectorAll devuelve una lista (puede tener 0, 1 o más elementos).
-const formularios = document.querySelectorAll('.login__container--form');
+// Busca en la página el formulario marcado con data-formulario.
+const formulario = document.querySelector('[data-formulario]');
 
-// Recorre la lista y ejecuta la función una vez por cada formulario encontrado.
-formularios.forEach((formulario) => {
-
-    // Dentro de ESTE formulario, busca el párrafo reservado para mostrar mensajes.
+// Solo sigue si la página tiene ese formulario.
+if (formulario) {
+    // Párrafo reservado para mostrar mensajes.
     const mensaje = formulario.querySelector('.login__mensaje');
+    // Botón de envío.
+    const boton = formulario.querySelector('button[type="submit"]');
+    // Tipo de formulario: "login" o "registro".
+    const tipo = formulario.dataset.formulario;
 
-    // Se queda "escuchando" el evento submit, que se dispara cuando el usuario envía el formulario
+    // Escucha el evento submit, que se dispara cuando el usuario envía el formulario
     // (con el botón o con Enter) y el navegador ya validó los campos marcados como required.
-    formulario.addEventListener('submit', (evento) => {
-
-        // Cancela el comportamiento por defecto: enviar los datos y recargar la página.
+    formulario.addEventListener('submit', async (evento) => {
+        // Cancela el envío tradicional (que recargaría la página): lo hacemos nosotros con fetch.
         evento.preventDefault();
 
-        // Escribe el aviso dentro del párrafo de mensajes.
-        // Como ese párrafo tiene role="status", los lectores de pantalla también lo anuncian.
-        mensaje.textContent = 'Esta función todavía no está disponible: el sitio aún no tiene servidor.';
+        // Datos comunes a los dos formularios. formulario.elements permite acceder a cada
+        // campo por su atributo name.
+        const datos = {
+            correo: formulario.elements.correo.value,
+            contrasena: formulario.elements.contrasena.value,
+        };
+        // El de registro además tiene nombre.
+        if (tipo === 'registro') {
+            datos.nombre = formulario.elements.nombre.value;
+        }
+        // El de login además tiene la casilla "Recuérdame" (checked vale true o false).
+        if (tipo === 'login') {
+            datos.recordarme = formulario.elements.recordarme.checked;
+        }
+
+        // Deshabilita el botón mientras se espera la respuesta, para evitar envíos dobles.
+        boton.disabled = true;
+        // Borra cualquier mensaje anterior.
+        mensaje.textContent = '';
+
+        // Manda los datos a la ruta que corresponde y espera la respuesta.
+        const respuesta = await pedirApi('POST', tipo === 'registro' ? '/registro' : '/login', datos);
+
+        // Si salió mal...
+        if (!respuesta.ok) {
+            // ...muestra el error (como el párrafo tiene role="status", los lectores de pantalla lo anuncian)...
+            mensaje.textContent = respuesta.error;
+            // ...vuelve a habilitar el botón para que pueda reintentar...
+            boton.disabled = false;
+            // ...y corta acá.
+            return;
+        }
+
+        // Salió bien: la sesión ya quedó iniciada. Redirige según el rol que informó el servidor.
+        const esAdmin = respuesta.datos.usuario.rol === 'admin';
+        window.location.href = esAdmin ? './admin.html' : './cuenta.html';
     });
-});
+}
