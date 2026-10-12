@@ -1,87 +1,156 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <!-- Font -->
-  <link href="https://fonts.googleapis.com/css?family=Muli&display=swap" rel="stylesheet">
-  <!-- Styles -->
-  <link rel="stylesheet" href="styles.css">
-  <!-- SEO -->
-  <title>Iniciar Sesión</title>
-  <meta name="keywords" content="drone,dji,aeromodelismo,blog,noticias,vuelo,radiocontrol,video">
-  <meta name="description" content="iniciate en a=el mundo de los drones en este blog para aquellos que quieren adentrarse en este gran mundo">
+<!-- La línea de arriba (DOCTYPE) le avisa al navegador que este documento es HTML5 -->
 
+<!-- <html> es la raíz del documento; lang="es" indica que el contenido está en español -->
+<html lang="es">
+
+<!-- <head> contiene información sobre la página que NO se muestra dentro de la ventana -->
+<head>
+    <!-- Codificación de caracteres: UTF-8 permite escribir tildes, ñ y símbolos sin que se rompan -->
+    <meta charset="UTF-8">
+    <!-- Hace que en celulares la página use el ancho real de la pantalla y arranque sin zoom -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Título de la pestaña del navegador y del resultado en buscadores -->
+    <title>Droner | Iniciar sesión</title>
+    <!-- Descripción corta que los buscadores muestran debajo del título -->
+    <meta name="description" content="Iniciá sesión en Droner, el blog para quienes quieren adentrarse en el mundo de los drones.">
+    <!-- Palabras clave relacionadas con el contenido del sitio -->
+    <meta name="keywords" content="drone,dji,aeromodelismo,blog,noticias,vuelo,radiocontrol,video">
+
+    <!-- Hoja de estilos de Bootstrap 5.1.3 (copia local). Se carga también acá para que el
+         encabezado y los textos se vean igual que en el resto del sitio -->
+    <link rel="stylesheet" href="./vendor/bootstrap/css/bootstrap.min.css">
+    <!-- Hoja de estilos propia; va DESPUÉS de Bootstrap para poder pisar sus reglas -->
+    <link rel="stylesheet" href="./css/styles.css">
+
+    <!-- Scripts propios. "defer" los ejecuta recién cuando el HTML terminó de leerse, y en este mismo orden -->
+    <!-- 1) Función pedirApi para hablar con el backend; va primero porque los demás la usan -->
+    <script src="./js/api.js" defer></script>
+    <!-- 2) Cambia la opción "Ingresar" del menú si hay una sesión iniciada -->
+    <script src="./js/sesion.js" defer></script>
+    <!-- 3) Envía este formulario al backend y redirige según la respuesta -->
+    <script src="./js/formularios.js" defer></script>
 </head>
 
+<!-- <body> contiene todo lo que se ve en la página -->
 <body>
-  <header class="header">
-    
-    <div class="container">
-        <div class="logo">
-            <h1>DRONER</h1>
-        </div>
-        <nav class="menu">
-            <ul>
-                <li><a href="./index.html">Inicio</a></li>
-                <li><a href="#">Marcas <i class="icon-abajo2"></i></a>
-                <ul class="submenu">
-                    <li><a href="#">
-                        Dji
-                    </a></li>
-                    <li><a href="#">
-                        Parrot
-                    </a></li>
-                    <li><a href="#">
-                        Syma
-                    </a></li>
-                </ul>
-                </li>
-                <li><a href="#">Ingresar <i class="icon-abajo2"></i></a>
-                <ul class="submenu">
-                    <li><a href="./iniciar-sesion.html">
-                        ya tengo cuenta
-                    </a></li>
-                    <li><a href="./registrar.html">
-                        soy nuevo
-                    </a></li>
-                </ul>
-                </li>
-                <li><a href="#">Blog</a></li>
 
-            </ul>
-        </nav>
-    </div>
-  </header>
-  <section class="login">
-      <section class="login__container">
-        <h2>Inicia sesión</h2>
-        <form class="login__container--form">
-          <input class="input" type="text" placeholder="Correo">
-          <input class="input" type="password" placeholder="Contraseña">
-          <button class="button">Iniciar sesión</button>
-          <div class="login__container--remember-me">
-            <label>
-              <input type="checkbox" name="" id="cbox1" value="checkbos">Recuérdame
-            </label>
-            <a href="/">Olvidé mi contraseña</a>
-          </div>
-        </form>
-        <section class="login__container--social-media">
-          <div><img src="./addsets/google-icon.png" alt="Google">Inicia sesión con Google</div>
-          <div><img src="./addsets/twitter-icon.png" alt="Twitter">Inicia sesión con Twitter</div>
-        </section>
-        <p class="login__container--register">No tienes ninguna cuenta <a href="registrar.html">Regístrate</a></p>
-      </section>
-  </section>
-  <footer class="footer">
-    <a href="/">Términos de uso</a>
-    <a href="/">Declaración de privacidad</a>
-    <a href="/">Centro de ayuda</a>
-    <a href="./iniciar-sesion.html">inicio</a>
-  </footer>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    <!-- ===================== ENCABEZADO (se repite igual en todas las páginas) ===================== -->
+    <!-- <header>: barra superior con el logo y el menú -->
+    <header class="header">
+        <!-- Caja interna que centra el contenido y lo limita a 1100px de ancho -->
+        <div class="header__container">
+            <!-- Logo de texto; es un enlace que siempre vuelve a la página de inicio -->
+            <a class="logo" href="./index.html">DRONER</a>
+            <!-- <nav>: bloque de navegación; aria-label le pone nombre para los lectores de pantalla -->
+            <nav class="menu" aria-label="Menú principal">
+                <!-- Lista de opciones del menú principal -->
+                <ul class="menu__lista">
+                    <!-- Opción "Inicio" -->
+                    <li class="menu__item"><a class="menu__link" href="./index.html">Inicio</a></li>
+                    <!-- Opción "Marcas": contiene un submenú desplegable -->
+                    <li class="menu__item">
+                        <!-- Es un <button> y no un enlace porque no lleva a otra página: solo despliega el submenú -->
+                        <button class="menu__link" type="button">Marcas <span class="menu__flecha" aria-hidden="true">▾</span></button>
+                        <!-- Submenú: oculto por CSS, aparece al pasar el mouse o al enfocar el botón -->
+                        <ul class="submenu">
+                            <!-- DJI lleva al único artículo publicado de esa marca -->
+                            <li><a class="menu__link" href="./mini2.html">DJI</a></li>
+                            <!-- Parrot todavía no tiene página: se muestra como texto sin enlace -->
+                            <li><span class="submenu__proximamente">Parrot (próximamente)</span></li>
+                            <!-- Syma todavía no tiene página: se muestra como texto sin enlace -->
+                            <li><span class="submenu__proximamente">Syma (próximamente)</span></li>
+                        </ul> <!-- fin del submenú de marcas -->
+                    </li> <!-- fin de la opción "Marcas" -->
+                    <!-- Opción "Ingresar": contiene un submenú desplegable.
+                         data-menu-sesion es la marca que busca js/sesion.js: si hay una sesión iniciada,
+                         reemplaza este submenú por "Mi cuenta" y "Cerrar sesión" -->
+                    <li class="menu__item" data-menu-sesion>
+                        <!-- Botón que despliega el submenú de acceso; el <span> marcado con data-menu-sesion-texto
+                             es el texto que js/sesion.js cambia por "Hola, (nombre)" -->
+                        <button class="menu__link" type="button"><span data-menu-sesion-texto>Ingresar</span> <span class="menu__flecha" aria-hidden="true">▾</span></button>
+                        <!-- Submenú con las dos formas de ingresar -->
+                        <ul class="submenu">
+                            <!-- Formulario de inicio de sesión; aria-current="page" marca que es la página actual -->
+                            <li><a class="menu__link" href="./iniciar-sesion.html" aria-current="page">Ya tengo cuenta</a></li>
+                            <!-- Lleva al formulario de registro -->
+                            <li><a class="menu__link" href="./registrar.html">Soy nuevo</a></li>
+                        </ul> <!-- fin del submenú de ingreso -->
+                    </li> <!-- fin de la opción "Ingresar" -->
+                    <!-- Opción "Blog": lleva al artículo del DJI Mini 2 -->
+                    <li class="menu__item"><a class="menu__link" href="./mini2.html">Blog</a></li>
+                </ul> <!-- fin de la lista del menú -->
+            </nav> <!-- fin de la navegación -->
+        </div> <!-- fin de .header__container -->
+    </header> <!-- fin del encabezado -->
+
+    <!-- ===================== CONTENIDO PRINCIPAL ===================== -->
+    <!-- <main>: contenido único de esta página; la clase login pone el degradado y centra la tarjeta -->
+    <main class="login">
+        <!-- Tarjeta translúcida que agrupa todo el formulario -->
+        <section class="login__container">
+            <!-- Título principal de la página (único <h1>); la clase h2 de Bootstrap le da un tamaño más moderado -->
+            <h1 class="h2">Iniciá sesión</h1>
+
+            <!-- Formulario. data-formulario="login" le indica a js/formularios.js que debe enviarlo a POST /api/login.
+                 method="post" evita que, si el script no cargara, la contraseña viaje visible en la URL. -->
+            <form class="login__container--form" method="post" action="#" data-formulario="login">
+                <!-- Etiqueta del campo correo: visually-hidden la oculta a la vista pero la leen los lectores de pantalla;
+                     "for" la vincula con el campo cuyo id es "correo" -->
+                <label class="visually-hidden" for="correo">Correo</label>
+                <!-- Campo de correo: type="email" valida el formato y muestra el teclado con @ en celulares;
+                     name es la clave con la que se enviaría el dato; autocomplete ayuda al navegador a sugerirlo;
+                     required impide enviar el formulario con el campo vacío -->
+                <input class="input" type="email" id="correo" name="correo" placeholder="Correo" autocomplete="email" required>
+                <!-- Etiqueta del campo contraseña (solo para lectores de pantalla) -->
+                <label class="visually-hidden" for="contrasena">Contraseña</label>
+                <!-- Campo de contraseña: type="password" oculta lo que se escribe;
+                     autocomplete="current-password" permite que el navegador ofrezca la contraseña guardada -->
+                <input class="input" type="password" id="contrasena" name="contrasena" placeholder="Contraseña" autocomplete="current-password" required>
+                <!-- Botón de envío: type="submit" dispara el evento submit del formulario -->
+                <button class="button" type="submit">Iniciar sesión</button>
+                <!-- Fila con el checkbox "Recuérdame" y el enlace de recuperación -->
+                <div class="login__container--remember-me">
+                    <!-- La etiqueta envuelve al checkbox: hacer clic en el texto también lo tilda -->
+                    <label>
+                        <!-- Casilla de verificación -->
+                        <input type="checkbox" id="recordarme" name="recordarme">Recuérdame
+                    </label>
+                    <!-- Enlace pendiente: todavía no existe la página de recuperación, por eso apunta a "#" -->
+                    <a href="#">Olvidé mi contraseña</a>
+                </div> <!-- fin de la fila "Recuérdame" -->
+                <!-- Párrafo vacío donde js/formularios.js escribe los errores que devuelve el servidor;
+                     role="status" hace que los lectores de pantalla lo anuncien cuando cambia -->
+                <p class="login__mensaje" role="status"></p>
+            </form> <!-- fin del formulario -->
+
+            <!-- Opciones de acceso con redes sociales (por ahora son solo visuales, no hacen nada) -->
+            <section class="login__container--social-media" aria-label="Acceso con redes sociales">
+                <!-- Opción Google: alt vacío porque el ícono es decorativo (el texto ya dice "Google") -->
+                <div><img src="./assets/img/icono-google.png" alt="">Iniciá sesión con Google</div>
+                <!-- Opción Twitter: alt vacío por el mismo motivo -->
+                <div><img src="./assets/img/icono-twitter.png" alt="">Iniciá sesión con Twitter</div>
+            </section> <!-- fin de las opciones sociales -->
+
+            <!-- Texto al pie de la tarjeta con el enlace al formulario de registro -->
+            <p class="login__container--register">¿No tenés ninguna cuenta? <a href="./registrar.html">Registrate</a></p>
+        </section> <!-- fin de la tarjeta -->
+    </main> <!-- fin del contenido principal -->
+
+    <!-- ===================== PIE DE PÁGINA (se repite igual en todas las páginas) ===================== -->
+    <!-- <footer>: barra inferior con enlaces secundarios -->
+    <footer class="footer">
+        <!-- Vuelve a la página de inicio -->
+        <a href="./index.html">Inicio</a>
+        <!-- Enlace pendiente: todavía no existe la página, por eso apunta a "#" -->
+        <a href="#">Términos de uso</a>
+        <!-- Enlace pendiente: todavía no existe la página -->
+        <a href="#">Declaración de privacidad</a>
+        <!-- Enlace pendiente: todavía no existe la página -->
+        <a href="#">Centro de ayuda</a>
+    </footer> <!-- fin del pie de página -->
+
+    <!-- Esta página no carga el JavaScript de Bootstrap porque no usa modal ni carrusel -->
 </body>
 </html>

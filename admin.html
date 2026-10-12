@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<!-- La línea de arriba (DOCTYPE) le avisa al navegador que este documento es HTML5 -->
+
+<!-- <html> es la raíz del documento; lang="es" indica que el contenido está en español -->
+<html lang="es">
+
+<!-- <head> contiene información sobre la página que NO se muestra dentro de la ventana -->
+<head>
+    <!-- Codificación de caracteres: UTF-8 permite escribir tildes, ñ y símbolos sin que se rompan -->
+    <meta charset="UTF-8">
+    <!-- Hace que en celulares la página use el ancho real de la pantalla y arranque sin zoom -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Título de la pestaña del navegador -->
+    <title>Droner | Panel de administración</title>
+    <!-- Descripción corta de la página -->
+    <meta name="description" content="Panel de administración de Droner.">
+    <!-- Página privada: les pide a los buscadores que no la incluyan en sus resultados -->
+    <meta name="robots" content="noindex">
+
+    <!-- Hoja de estilos de Bootstrap 5.1.3 (copia local minificada) -->
+    <link rel="stylesheet" href="./vendor/bootstrap/css/bootstrap.min.css">
+    <!-- Hoja de estilos propia; va DESPUÉS de Bootstrap para poder pisar sus reglas -->
+    <link rel="stylesheet" href="./css/styles.css">
+
+    <!-- Scripts propios. "defer" los ejecuta recién cuando el HTML terminó de leerse, y en este mismo orden -->
+    <!-- 1) Función pedirApi para hablar con el backend; va primero porque los demás la usan -->
+    <script src="./js/api.js" defer></script>
+    <!-- 2) Cambia la opción "Ingresar" del menú si hay una sesión iniciada; define cerrarSesion -->
+    <script src="./js/sesion.js" defer></script>
+    <!-- 3) Carga los textos y los usuarios, y guarda los cambios del administrador -->
+    <script src="./js/admin.js" defer></script>
+</head>
+
+<!-- <body> contiene todo lo que se ve en la página -->
+<body>
+
+    <!-- ===================== ENCABEZADO (se repite igual en todas las páginas) ===================== -->
+    <!-- <header>: barra superior con el logo y el menú -->
+    <header class="header">
+        <!-- Caja interna que centra el contenido y lo limita a 1100px de ancho -->
+        <div class="header__container">
+            <!-- Logo de texto; es un enlace que siempre vuelve a la página de inicio -->
+            <a class="logo" href="./index.html">DRONER</a>
+            <!-- <nav>: bloque de navegación; aria-label le pone nombre para los lectores de pantalla -->
+            <nav class="menu" aria-label="Menú principal">
+                <!-- Lista de opciones del menú principal -->
+                <ul class="menu__lista">
+                    <!-- Opción "Inicio" -->
+                    <li class="menu__item"><a class="menu__link" href="./index.html">Inicio</a></li>
+                    <!-- Opción "Marcas": contiene un submenú desplegable -->
+                    <li class="menu__item">
+                        <!-- Es un <button> y no un enlace porque no lleva a otra página: solo despliega el submenú -->
+                        <button class="menu__link" type="button">Marcas <span class="menu__flecha" aria-hidden="true">▾</span></button>
+                        <!-- Submenú: oculto por CSS, aparece al pasar el mouse o al enfocar el botón -->
+                        <ul class="submenu">
+                            <!-- DJI lleva al único artículo publicado de esa marca -->
+                            <li><a class="menu__link" href="./mini2.html">DJI</a></li>
+                            <!-- Parrot todavía no tiene página: se muestra como texto sin enlace -->
+                            <li><span class="submenu__proximamente">Parrot (próximamente)</span></li>
+                            <!-- Syma todavía no tiene página: se muestra como texto sin enlace -->
+                            <li><span class="submenu__proximamente">Syma (próximamente)</span></li>
+                        </ul> <!-- fin del submenú de marcas -->
+                    </li> <!-- fin de la opción "Marcas" -->
+                    <!-- Opción "Ingresar": contiene un submenú desplegable.
+                         data-menu-sesion es la marca que busca js/sesion.js: si hay una sesión iniciada,
+                         reemplaza este submenú por "Mi cuenta" y "Cerrar sesión" -->
+                    <li class="menu__item" data-menu-sesion>
+                        <!-- Botón que despliega el submenú de acceso; el <span> marcado con data-menu-sesion-texto
+                             es el texto que js/sesion.js cambia por "Hola, (nombre)" -->
+                        <button class="menu__link" type="button"><span data-menu-sesion-texto>Ingresar</span> <span class="menu__flecha" aria-hidden="true">▾</span></button>
+                        <!-- Submenú con las dos formas de ingresar -->
+                        <ul class="submenu">
+                            <!-- Lleva al formulario de inicio de sesión -->
+                            <li><a class="menu__link" href="./iniciar-sesion.html">Ya tengo cuenta</a></li>
+                            <!-- Lleva al formulario de registro -->
+                            <li><a class="menu__link" href="./registrar.html">Soy nuevo</a></li>
+                        </ul> <!-- fin del submenú de ingreso -->
+                    </li> <!-- fin de la opción "Ingresar" -->
+                    <!-- Opción "Blog": lleva al artículo del DJI Mini 2 -->
+                    <li class="menu__item"><a class="menu__link" href="./mini2.html">Blog</a></li>
+                </ul> <!-- fin de la lista del menú -->
+            </nav> <!-- fin de la navegación -->
+        </div> <!-- fin de .header__container -->
+    </header> <!-- fin del encabezado -->
+
+    <!-- ===================== CONTENIDO PRINCIPAL ===================== -->
+    <!-- Esta página solo la puede abrir un administrador: a cualquier otro, el servidor lo redirige -->
+    <!-- <main>: contenido único de esta página; la clase content pone el fondo degradado -->
+    <main class="content">
+        <!-- Contenedor centrado del panel -->
+        <div class="panel">
+            <!-- Título principal de la página (único <h1>) -->
+            <h1 class="panel__titulo">Panel de administración</h1>
+
+            <!-- ---------- Sección 1: textos del sitio ---------- -->
+            <!-- Tarjeta blanca; aria-labelledby la nombra con el título que tiene adentro -->
+            <section class="panel__tarjeta" aria-labelledby="titulo-contenido">
+                <!-- Título de la sección -->
+                <h2 class="h4" id="titulo-contenido">Textos del sitio</h2>
+                <!-- Aclaración para el administrador; text-muted (Bootstrap) lo muestra en gris -->
+                <p class="text-muted">Lo que guardes acá reemplaza los textos de la página de inicio y del artículo del blog.</p>
+
+                <!-- Formulario de textos; js/admin.js lo busca por data-admin, lo completa y lo envía con PUT /api/contenido -->
+                <form data-admin="formulario-contenido">
+                    <!-- Grupo etiqueta + campo; mb-3 (Bootstrap) le deja un margen abajo -->
+                    <div class="mb-3">
+                        <!-- Etiqueta visible; "for" la vincula con el campo de id portadaTitulo -->
+                        <label class="form-label" for="portadaTitulo">Título de la portada</label>
+                        <!-- Campo de una línea. name coincide con la clave que usa la API;
+                             maxlength limita el largo (el servidor valida lo mismo); required impide dejarlo vacío -->
+                        <input class="form-control" type="text" id="portadaTitulo" name="portadaTitulo" maxlength="120" required>
+                    </div>
+                    <!-- Grupo etiqueta + campo -->
+                    <div class="mb-3">
+                        <!-- Etiqueta visible -->
+                        <label class="form-label" for="portadaTexto">Texto de la portada</label>
+                        <!-- <textarea>: campo de varias líneas; rows="3" es su alto inicial -->
+                        <textarea class="form-control" id="portadaTexto" name="portadaTexto" rows="3" maxlength="1000" required></textarea>
+                    </div>
+                    <!-- Grupo etiqueta + campo -->
+                    <div class="mb-3">
+                        <!-- Etiqueta visible -->
+                        <label class="form-label" for="articuloTitulo">Título del artículo del blog</label>
+                        <!-- Campo de una línea -->
+                        <input class="form-control" type="text" id="articuloTitulo" name="articuloTitulo" maxlength="120" required>
+                    </div>
+                    <!-- Grupo etiqueta + campo -->
+                    <div class="mb-3">
+                        <!-- Etiqueta visible -->
+                        <label class="form-label" for="articuloTexto">Texto del artículo del blog</label>
+                        <!-- Campo de varias líneas -->
+                        <textarea class="form-control" id="articuloTexto" name="articuloTexto" rows="4" maxlength="1000" required></textarea>
+                    </div>
+                    <!-- Botón de envío con el estilo principal de Bootstrap -->
+                    <button class="btn btn-primary" type="submit">Guardar cambios</button>
+                    <!-- Párrafo donde js/admin.js escribe "Guardando...", la confirmación o el error;
+                         role="status" hace que los lectores de pantalla lo anuncien cuando cambia -->
+                    <p class="panel__mensaje" role="status" data-admin="mensaje-contenido"></p>
+                </form> <!-- fin del formulario de textos -->
+            </section> <!-- fin de la sección de textos -->
+
+            <!-- ---------- Sección 2: usuarios ---------- -->
+            <!-- Tarjeta blanca -->
+            <section class="panel__tarjeta" aria-labelledby="titulo-usuarios">
+                <!-- Título de la sección -->
+                <h2 class="h4" id="titulo-usuarios">Usuarios</h2>
+                <!-- Aclaración para el administrador -->
+                <p class="text-muted">Podés cambiar el rol de una cuenta o eliminarla. Tu propia cuenta no se puede modificar desde acá.</p>
+
+                <!-- table-responsive (Bootstrap): si la tabla no entra en pantalla, se desplaza de costado sin romper la página -->
+                <div class="table-responsive">
+                    <!-- Tabla; "table" y "align-middle" (Bootstrap) le dan el estilo y centran las celdas en vertical -->
+                    <table class="table align-middle">
+                        <!-- Encabezado de la tabla -->
+                        <thead>
+                            <!-- Fila de títulos; scope="col" indica que cada uno titula una columna -->
+                            <tr>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Correo</th>
+                                <th scope="col">Rol</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                        <!-- Cuerpo de la tabla: arranca vacío y js/admin.js agrega una fila por cada usuario -->
+                        <tbody data-admin="tabla-usuarios"></tbody>
+                    </table>
+                </div> <!-- fin de .table-responsive -->
+                <!-- Párrafo donde js/admin.js escribe el resultado de cada acción -->
+                <p class="panel__mensaje" role="status" data-admin="mensaje-usuarios"></p>
+            </section> <!-- fin de la sección de usuarios -->
+        </div> <!-- fin de .panel -->
+    </main> <!-- fin del contenido principal -->
+
+    <!-- ===================== PIE DE PÁGINA (se repite igual en todas las páginas) ===================== -->
+    <!-- <footer>: barra inferior con enlaces secundarios -->
+    <footer class="footer">
+        <!-- Vuelve a la página de inicio -->
+        <a href="./index.html">Inicio</a>
+        <!-- Enlace pendiente: todavía no existe la página, por eso apunta a "#" -->
+        <a href="#">Términos de uso</a>
+        <!-- Enlace pendiente: todavía no existe la página -->
+        <a href="#">Declaración de privacidad</a>
+        <!-- Enlace pendiente: todavía no existe la página -->
+        <a href="#">Centro de ayuda</a>
+    </footer> <!-- fin del pie de página -->
+
+    <!-- Esta página no carga el JavaScript de Bootstrap porque no usa modal ni carrusel -->
+</body>
+</html>

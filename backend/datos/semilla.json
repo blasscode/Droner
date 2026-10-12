@@ -1,0 +1,22 @@
+{
+  "usuarios": [
+    {
+      "nombre": "Administrador",
+      "correo": "admin@droner.test",
+      "contrasena": "AdminDroner2026",
+      "rol": "admin"
+    },
+    {
+      "nombre": "Usuario de prueba",
+      "correo": "usuario@droner.test",
+      "contrasena": "UsuarioDroner2026",
+      "rol": "usuario"
+    }
+  ],
+  "contenido": {
+    "portadaTitulo": "Tu blog para empezar a volar",
+    "portadaTexto": "Droner es un blog para quienes quieren iniciarse en el mundo de los drones: novedades, análisis de modelos y consejos de vuelo explicados de forma simple.",
+    "articuloTitulo": "DJI Mini 2",
+    "articuloTexto": "El DJI Mini 2 es un drone compacto pero potente: pesa menos de 249 g, graba video en 4K y, gracias a la transmisión OcuSync 2.0, alcanza hasta 10 km de distancia. Junto con la aplicación DJI Fly, fácil de usar, ofrece una experiencia de vuelo simplificada y hasta 31 minutos de autonomía."
+  }
+}
